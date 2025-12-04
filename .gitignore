@@ -1,3 +1,8 @@
 /StayFit.WPF/.vs
 /StayFit.WPF/StayFit.WPF/bin
 /StayFit.WPF/StayFit.WPF/obj
+/StayFit/.vs
+/StayFit/Kinect_WPF_Natif/bin/Debug
+/StayFit/Kinect_WPF_Natif/obj/Debug
+/StayFit/packages/Microsoft.Kinect.2.0.1410.19000
+*.user
