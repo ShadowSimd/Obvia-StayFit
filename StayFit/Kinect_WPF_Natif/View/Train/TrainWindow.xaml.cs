@@ -9,11 +9,7 @@ using System.Windows.Shapes;
 
 namespace Kinect_WPF_Natif
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// Description : Expérimentation avec la Kinect XBox One (Color + Skeleton).
-    /// </summary>
-    public partial class MainWindow : Window
+    public partial class TrainWindow : Window
     {
         #region Constants
 
@@ -34,7 +30,7 @@ namespace Kinect_WPF_Natif
         /// <summary>
         /// ctor
         /// </summary>
-        public MainWindow()
+        public TrainWindow()
         {
             InitializeComponent();
             _kinectSensor = KinectSensor.GetDefault();
