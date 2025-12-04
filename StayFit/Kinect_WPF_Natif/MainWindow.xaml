@@ -12,6 +12,7 @@
             <Image x:Name="imgCameraKinect" HorizontalAlignment="Left" Height="720" Width="1280"  Margin="0,0,0,0" VerticalAlignment="Top" />
             <Canvas x:Name="canvas"  HorizontalAlignment="Left"  Height="720" Width="1280" Margin="0,0,0,0" VerticalAlignment="Top" Panel.ZIndex="1" >
             </Canvas>
+            <TextBlock x:Name="txtConsole" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="240" Height="720" Foreground="White" FontWeight="Bold" FontSize="16"/>
 
 
 

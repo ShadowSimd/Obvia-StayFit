@@ -169,7 +169,7 @@ namespace Kinect_WPF_Natif
         /// </summary>
         private void KinectSensor_IsAvailableChanged(object sender, IsAvailableChangedEventArgs e)
         {
-            this.Title = "Kinect 2.0 : " + (this._kinectSensor.IsAvailable ? "Connecter" : "Erreur lors de la connection");
+            txtConsole.Text += e.IsAvailable ? "\nKinect disponible" : "\nKinect indisponible";
         }
 
         /// <summary>
