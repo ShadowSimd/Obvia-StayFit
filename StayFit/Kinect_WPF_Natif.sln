@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33110.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kinect_WPF_Natif", "Kinect_WPF_Natif\Kinect_WPF_Natif.csproj", "{C560C7B9-E999-4DE9-B4D2-E83E046765DD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C560C7B9-E999-4DE9-B4D2-E83E046765DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C560C7B9-E999-4DE9-B4D2-E83E046765DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C560C7B9-E999-4DE9-B4D2-E83E046765DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C560C7B9-E999-4DE9-B4D2-E83E046765DD}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30CFCA8E-3C81-487C-A946-23D6653F4F06}
+	EndGlobalSection
+EndGlobal
