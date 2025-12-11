@@ -1,5 +1,8 @@
+using Kinect_WPF_Natif.Model.DTO;
+using Kinect_WPF_Natif.Model.ML;
 using Microsoft.Kinect;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
@@ -33,6 +36,14 @@ namespace Kinect_WPF_Natif
         public TrainWindow()
         {
             InitializeComponent();
+
+            // Gestion du DropDown
+            List<TrainableMoveDTO> trainableMoves = MoveHandler.GetAllMoves()
+                .Select(m => new TrainableMoveDTO { Id = (int)m.MoveId, DisplayName =  m.DisplayName }).ToList();
+            MoveSelector.ItemsSource = trainableMoves;
+            MoveSelector.SelectedIndex = 0;
+
+            // Gestion de la kienct
             _kinectSensor = KinectSensor.GetDefault();
 
             if (_kinectSensor != null)
