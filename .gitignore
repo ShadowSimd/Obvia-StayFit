@@ -6,3 +6,6 @@
 /StayFit/Kinect_WPF_Natif/obj/Debug
 /StayFit/packages/Microsoft.Kinect.2.0.1410.19000
 *.user
+/StayFit/packages
+/StayFit/Kinect_WPF_Natif/bin/x64/Debug
+/StayFit/Kinect_WPF_Natif/obj/x64/Debug
