@@ -13,7 +13,11 @@ namespace Kinect_WPF_Natif.Model.ML
         [LoadColumn(0)]
         public float[] MoveJoints { get; set; }
 
-        [LoadColumn(1), ColumnName("Label")]
-        public string Move { get; set; }
+        [VectorType(25)]
+        [LoadColumn(1)]
+        public float[] ConfidenceScore { get; set; }
+
+        [LoadColumn(2), ColumnName("Label")]
+        public string MoveLabel { get; set; }
     }
 }
