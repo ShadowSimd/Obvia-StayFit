@@ -1,3 +1,4 @@
+using Kinect_WPF_Natif.Model;
 using Kinect_WPF_Natif.Model.DTO;
 using Kinect_WPF_Natif.Model.ML;
 using Microsoft.Kinect;
@@ -29,6 +30,9 @@ namespace Kinect_WPF_Natif
         private WriteableBitmap _bitmap = null;
         private byte[] _picPixels = null;
 
+        Body[] _bodies = null;
+        AI _ai = new AI();
+
 
         /// <summary>
         /// ctor
@@ -50,6 +54,8 @@ namespace Kinect_WPF_Natif
             {
                 _kinectSensor.IsAvailableChanged += KinectSensor_IsAvailableChanged;
                 _kinectSensor.Open();
+
+                _bodies = new Body[_kinectSensor.BodyFrameSource.BodyCount];
 
                 FrameDescription colorFrameDescription = _kinectSensor.ColorFrameSource.FrameDescription;
                 _picPixels = new byte[colorFrameDescription.Width * colorFrameDescription.Height * 4];
@@ -86,12 +92,11 @@ namespace Kinect_WPF_Natif
             {
                 if (bodyFrame != null)
                 {
-                    Body[] squelettes = new Body[bodyFrame.BodyCount];
-                    bodyFrame.GetAndRefreshBodyData(squelettes);
+                    bodyFrame.GetAndRefreshBodyData(_bodies);
 
                     canvas.Children.Clear();
 
-                    foreach (Body squelette in squelettes.Where(b => b.IsTracked))
+                    foreach (Body squelette in _bodies.Where(b => b.IsTracked))
                     {
                         foreach(Joint j in squelette.Joints.Values)
                         {
@@ -191,5 +196,69 @@ namespace Kinect_WPF_Natif
                 _kinectSensor.Close();
             }
         }
+
+        private void btnTrain_Click(object sender, RoutedEventArgs e)
+        {
+            if (_kinectSensor == null)
+            {
+                txtConsole.Text += "\nBouton Entrainement: Kinect introuvable";
+                return;
+            }
+
+            if (_bodies.Count(s => s.IsTracked) == 0)
+            {
+                txtConsole.Text += "\nBouton Entrainement: Aucun corp détecté";
+                return;
+            }
+
+            if (_bodies.Count(s => s.IsTracked) > 1)
+            {
+                txtConsole.Text += "\nTrop de corps détectés";
+                return;
+            }
+
+            Body body = _bodies.First(b => b.IsTracked);
+            TrainableMoveDTO selectedMove = MoveSelector.SelectedItem as TrainableMoveDTO;
+            MoveHandler.Move move = MoveHandler.GetMove((MoveHandler.Moves)selectedMove.Id);
+            _ai.AddTrainingData(move, body);
+        }
+
+        private void btnCreateModel_Click(object sender, RoutedEventArgs e)
+        {
+            if (_kinectSensor == null)
+            {
+                txtConsole.Text += "\nBouton Entrainement: Kinect introuvable";
+                return;
+            }
+
+            _ai.InitializeModelFromData();
+        }
+
+        private void btnGuess_Click(object sender, RoutedEventArgs e)
+        {
+            if (_kinectSensor == null)
+            {
+                txtConsole.Text += "\nBouton Deviner: Kinect introuvable";
+                return;
+            }
+
+            if (_bodies.Count(s => s.IsTracked) == 0)
+            {
+                txtConsole.Text += "\nBouton Deviner: Aucun corp détecté";
+                return;
+            }
+
+            if (_bodies.Count(s => s.IsTracked) > 1)
+            {
+                txtConsole.Text += "\nTrop de corps détectés";
+                return;
+            }
+
+            Body body = _bodies.First(b => b.IsTracked);
+            MovePredictionResult res = _ai.Predict(body);
+
+            txtConsole.Text += $"\nBouton Deviner : Le move est -> {res.Prediction}";
+        }
+
     }
 }
