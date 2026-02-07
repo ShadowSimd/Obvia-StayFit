@@ -1,5 +1,4 @@
-﻿using Kinect_WPF_Natif.Model.Play;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,16 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Kinect_WPF_Natif.View.Play
 {
     /// <summary>
-    /// Logique d'interaction pour PlayWindow.xaml
+    /// Logique d'interaction pour SongOngoingPage.xaml
     /// </summary>
-    public partial class PlayWindow : Window
+    public partial class SongOngoingPage : Page
     {
-        public PlayWindow()
+        public SongOngoingPage(int songId)
         {
             InitializeComponent();
         }

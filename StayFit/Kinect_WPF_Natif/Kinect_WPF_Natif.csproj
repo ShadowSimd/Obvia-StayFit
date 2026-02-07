@@ -154,6 +154,14 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="View\Play\SongOngoingPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="View\Play\SongSelectPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Train\TrainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -176,6 +184,12 @@
     </Compile>
     <Compile Include="View\Play\PlayWindow.xaml.cs">
       <DependentUpon>PlayWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Play\SongOngoingPage.xaml.cs">
+      <DependentUpon>SongOngoingPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="View\Play\SongSelectPage.xaml.cs">
+      <DependentUpon>SongSelectPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="View\Train\TrainWindow.xaml.cs">
       <DependentUpon>TrainWindow.xaml</DependentUpon>
