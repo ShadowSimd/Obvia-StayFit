@@ -37,7 +37,7 @@
                                             </ItemsControl.ItemsPanel>
                                             <ItemsControl.ItemTemplate>
                                                 <DataTemplate>
-                                                    <Rectangle Width="40" Height="12" Margin="0,0,8,0" RadiusX="3" RadiusY="3" Fill="{Binding}"/>
+                                                    <Rectangle Width="50" Height="10" Margin="0,0,8,0" RadiusX="3" RadiusY="3" Fill="{Binding}"/>
                                                 </DataTemplate>
                                             </ItemsControl.ItemTemplate>
                                         </ItemsControl>
@@ -47,8 +47,15 @@
                                 </StackPanel>
                             </Grid>
                         </Border>
-
                         <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="CardBorder" Property="BorderBrush" Value="White"/>
+                                <Setter TargetName="CardBorder" Property="Effect">
+                                    <Setter.Value>
+                                        <DropShadowEffect Color="White" BlurRadius="20" ShadowDepth="0" Opacity="0.7"/>
+                                    </Setter.Value>
+                                </Setter>
+                            </Trigger>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter TargetName="CardBorder" Property="Background" Value="#2A2A2A"/>
                             </Trigger>
