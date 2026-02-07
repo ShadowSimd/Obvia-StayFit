@@ -3,10 +3,25 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Kinect_WPF_Natif.View"
         mc:Ignorable="d"
-        Title="StayFit!" Height="450" Width="800">
-    <Grid>
-        
+        Title="StayFit!" Height="900" Width="1600"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized"
+        >
+
+    <Grid Background="#0F0F0F">
+        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" Width="500">
+
+            <Image Source="/Images/stayfit-logo-long.png" 
+                   Height="300" 
+                   Width="512" 
+                   Margin="0,0,0,60"
+                   HorizontalAlignment="Center"/>
+
+            <Button Name="btnPlay" Content="JOUER" Style="{StaticResource MenuButtonStyle}" Click="btnPlay_Click"/>
+            <Button Name="btnTrain" Content="ENTRAINEMENT IA" Style="{StaticResource MenuButtonStyle}" Click="btnTrain_Click"/>
+            <Button Name="btnQuit" Content="QUITTER" Style="{StaticResource MenuButtonStyle}" Click="btnQuit_Click" />
+
+        </StackPanel>
     </Grid>
 </Window>

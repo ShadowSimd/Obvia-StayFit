@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Kinect_WPF_Natif.View.Play;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -22,6 +23,33 @@ namespace Kinect_WPF_Natif.View
         public HomeWindow()
         {
             InitializeComponent();
+        }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            PlayWindow playWindow = new PlayWindow();
+            hideCurrentAndShowNextWindow(playWindow);
+        }
+
+        private void btnTrain_Click(object sender, RoutedEventArgs e)
+        {
+            TrainWindow trainWindow = new TrainWindow();
+            hideCurrentAndShowNextWindow(trainWindow);
+        }
+
+        private void btnQuit_Click(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void hideCurrentAndShowNextWindow(Window w)
+        {
+            w.Closed += (s, args) =>
+            {
+                Show();
+            };
+            w.Show();
+            Hide();
         }
     }
 }

@@ -1,6 +1,7 @@
 using Kinect_WPF_Natif.Model;
 using Kinect_WPF_Natif.Model.DTO;
 using Kinect_WPF_Natif.Model.ML;
+using Kinect_WPF_Natif.View;
 using Microsoft.Kinect;
 using System;
 using System.Collections.Generic;
@@ -195,6 +196,7 @@ namespace Kinect_WPF_Natif
                 _bodyFrameReader.FrameArrived -= Bodyframe_FrameArrived;
                 _kinectSensor.Close();
             }
+
         }
 
         private void btnTrain_Click(object sender, RoutedEventArgs e)
