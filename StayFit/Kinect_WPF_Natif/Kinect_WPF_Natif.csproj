@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="Model\Converters\DifficultyToBarsConverter.cs" />
     <Compile Include="Model\Converters\SongDifficultyToColorConverter.cs" />
+    <Compile Include="Model\Helpers\KinectHelper.cs" />
     <Compile Include="Model\ML\TrainableMoveDTO.cs" />
     <Compile Include="Model\ML\AI.cs" />
     <Compile Include="Model\ML\IAI.cs" />
