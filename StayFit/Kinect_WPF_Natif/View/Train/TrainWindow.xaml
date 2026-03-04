@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kinect_WPF_Natif"
         mc:Ignorable="d"
-        Title="Entrainement"  Height="1080" Width="1920" Closed="Window_Closed"
+        Title="Entrainement"  Height="900" Width="1600" Closed="Window_Closed"
         WindowState="Maximized">
     <Grid>
 
@@ -14,12 +14,12 @@
             <Canvas x:Name="canvas"  HorizontalAlignment="Left"  Height="720" Width="1280" Margin="0,0,0,0" VerticalAlignment="Top" Panel.ZIndex="1" >
             </Canvas>
             <TextBlock x:Name="txtConsole" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Right" Width="240" Height="720" Foreground="White" FontWeight="Bold" FontSize="16"/>
-            <ComboBox HorizontalAlignment="Left" Margin="10,953,0,0" VerticalAlignment="Top" Width="273"  x:Name="MoveSelector" 
+            <ComboBox HorizontalAlignment="Left" Margin="10,740,0,0" VerticalAlignment="Top" Width="273"  x:Name="MoveSelector" 
               DisplayMemberPath="DisplayName" 
               SelectedValuePath="Id" />
-            <Button x:Name="btnTrain" Content="Entrainer" HorizontalAlignment="Left" Height="20" Margin="326,954,0,0" VerticalAlignment="Top" Width="156" Click="btnTrain_Click"/>
-            <Button x:Name="btnLoad" Content="Créer le modèle" HorizontalAlignment="Left" Height="20" Margin="520,954,0,0" VerticalAlignment="Top" Width="156" Click="btnCreateModel_Click"/>
-            <Button x:Name="btnGuess" Content="Deviner" HorizontalAlignment="Left" Height="20" Margin="703,954,0,0" VerticalAlignment="Top" Width="156" Click="btnGuess_Click"/>
+            <Button x:Name="btnTrain" Content="Entrainer" HorizontalAlignment="Left" Height="20" Margin="326,741,0,0" VerticalAlignment="Top" Width="156" Click="btnTrain_Click"/>
+            <Button x:Name="btnLoad" Content="Créer le modèle" HorizontalAlignment="Left" Height="20" Margin="520,741,0,0" VerticalAlignment="Top" Width="156" Click="btnCreateModel_Click"/>
+            <Button x:Name="btnGuess" Content="Deviner" HorizontalAlignment="Left" Height="20" Margin="703,741,0,0" VerticalAlignment="Top" Width="156" Click="btnGuess_Click"/>
 
 
 

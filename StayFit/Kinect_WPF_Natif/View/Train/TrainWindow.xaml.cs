@@ -186,7 +186,6 @@ namespace Kinect_WPF_Natif
             {
                 _kinectSensor.IsAvailableChanged -= KinectSensor_IsAvailableChanged;
             }
-
         }
 
     }
