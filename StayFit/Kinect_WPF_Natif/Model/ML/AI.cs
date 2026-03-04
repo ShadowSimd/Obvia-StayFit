@@ -82,7 +82,7 @@ namespace Kinect_WPF_Natif.Model
         public MovePredictionResult Predict(Body body)
         {
             if (_moveAI == null)
-                new Exception("AI pipeline was never initiated");
+                throw new Exception("AI pipeline was never initiated");
 
             MoveData moveData = createMoveData(null, body);
             MovePredictionResult prediction = _moveAI.Predict(moveData);
