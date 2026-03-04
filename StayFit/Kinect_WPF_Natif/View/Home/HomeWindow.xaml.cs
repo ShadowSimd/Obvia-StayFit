@@ -1,4 +1,5 @@
-﻿using Kinect_WPF_Natif.View.Play;
+﻿using Kinect_WPF_Natif.View.CreateSong;
+using Kinect_WPF_Natif.View.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,11 +37,17 @@ namespace Kinect_WPF_Natif.View
             TrainWindow trainWindow = new TrainWindow();
             hideCurrentAndShowNextWindow(trainWindow);
         }
+        private void btnCreate_CLick(object sender, RoutedEventArgs e)
+        {
+            CreateSongWindow createSongWindow = new CreateSongWindow();
+            hideCurrentAndShowNextWindow(createSongWindow);
+        }
 
         private void btnQuit_Click(object sender, RoutedEventArgs e)
         {
             Close();
         }
+
 
         private void hideCurrentAndShowNextWindow(Window w)
         {

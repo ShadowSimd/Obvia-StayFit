@@ -146,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="View\CreateSong\CreateSongWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Home\HomeWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -181,6 +185,9 @@
     <Compile Include="Model\ML\MoveData.cs" />
     <Compile Include="Model\ML\MovePredictionResult.cs" />
     <Compile Include="Model\Play\SongSelectItem.cs" />
+    <Compile Include="View\CreateSong\CreateSongWindow.xaml.cs">
+      <DependentUpon>CreateSongWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Home\HomeWindow.xaml.cs">
       <DependentUpon>HomeWindow.xaml</DependentUpon>
     </Compile>
