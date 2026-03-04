@@ -22,7 +22,6 @@ namespace Kinect_WPF_Natif.Model.Helpers
 
         public static readonly double DPI = 96.0;
         public static readonly PixelFormat FORMAT = PixelFormats.Bgra32;
-        public const int BODY_ELLIPSE_SIZE = 25;
 
         #endregion
 
@@ -31,15 +30,18 @@ namespace Kinect_WPF_Natif.Model.Helpers
         private KinectSensor _kinect = null;
 
         public Body[] Bodies { get; private set; } = null;
+        public int BodyEllipsePointSize { get; set; } = 25;
 
         /// <summary>
         ///     Simon Déry - 3 mars 2026
         ///     Ctor
         /// </summary>
         /// <param name="kinect"></param>
-        public KinectHelper(KinectSensor kinect)
+        public KinectHelper(KinectSensor kinect, int? bodyEllipsePointSize = null)
         {
             _kinect = kinect;
+            if (bodyEllipsePointSize.HasValue)
+                BodyEllipsePointSize = bodyEllipsePointSize.Value;
 
             FrameDescription colorFrameDescription = _kinect.ColorFrameSource.FrameDescription;
             _imgPixels = new byte[colorFrameDescription.Width * colorFrameDescription.Height * 4];
@@ -66,6 +68,11 @@ namespace Kinect_WPF_Natif.Model.Helpers
             }
         }
 
+        /// <summary>
+        ///     Affiche les corps sur un canvas
+        /// </summary>
+        /// <param name="bodyFrame"></param>
+        /// <param name="targetCanvas"></param>
         public void ShowBodiesOnCanva(BodyFrame bodyFrame, Canvas targetCanvas)
         {
             bodyFrame.GetAndRefreshBodyData(Bodies);
@@ -77,7 +84,7 @@ namespace Kinect_WPF_Natif.Model.Helpers
                 foreach (Joint j in squelette.Joints.Values)
                 {
                     if (j.TrackingState == TrackingState.Tracked)
-                        DrawJoint(j, Colors.Red, BODY_ELLIPSE_SIZE, targetCanvas);
+                        DrawJoint(j, Colors.Red, BodyEllipsePointSize, targetCanvas);
                 }
             }
         }
