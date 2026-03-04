@@ -10,6 +10,7 @@ namespace Kinect_WPF_Natif.Model.Play
     {
         public int SongId { get; set; }
         public string Title { get; set; }
+        public string Path { get; set; }
         public int Difficulty { get; set; }
     }
 }

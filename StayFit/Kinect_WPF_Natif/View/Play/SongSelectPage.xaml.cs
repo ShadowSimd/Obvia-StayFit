@@ -1,4 +1,5 @@
-﻿using Kinect_WPF_Natif.Model.Play;
+﻿using Kinect_WPF_Natif.Model;
+using Kinect_WPF_Natif.Model.Play;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,14 +31,7 @@ namespace Kinect_WPF_Natif.View.Play
 
         private void LoadSongsSongSelect()
         {
-            List<SongSelectItem> songSelect = new List<SongSelectItem>()
-            {
-                new SongSelectItem { Title = "Chanson #1", Difficulty = 1, SongId = 1 },
-                new SongSelectItem { Title = "Chanson #2", Difficulty = 2, SongId = 2 },
-                new SongSelectItem { Title = "Chanson #3", Difficulty = 3, SongId = 3 },
-                new SongSelectItem { Title = "Chanson #4", Difficulty = 4, SongId = 4 },
-                new SongSelectItem { Title = "Chanson #5", Difficulty = 5, SongId = 5 },
-            };
+            List<SongSelectItem> songSelect = Constants.AVAILABLE_SONGS;
 
             SongListBox.ItemsSource = songSelect;
         }

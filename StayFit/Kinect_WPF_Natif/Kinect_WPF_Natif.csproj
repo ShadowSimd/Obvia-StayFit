@@ -170,6 +170,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Model\Constants.cs" />
     <Compile Include="Model\Converters\DifficultyToBarsConverter.cs" />
     <Compile Include="Model\Converters\SongDifficultyToColorConverter.cs" />
     <Compile Include="Model\Helpers\KinectHelper.cs" />
@@ -229,6 +230,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Images\stayfit-logo-long.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Audio\Songs\To_Brazil.mp3">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

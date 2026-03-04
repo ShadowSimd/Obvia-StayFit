@@ -1,4 +1,6 @@
-﻿using Kinect_WPF_Natif.Model.Helpers;
+﻿using Kinect_WPF_Natif.Model;
+using Kinect_WPF_Natif.Model.Helpers;
+using Kinect_WPF_Natif.Model.Play;
 using Microsoft.Kinect;
 using Microsoft.SqlServer.Server;
 using System;
@@ -29,11 +31,15 @@ namespace Kinect_WPF_Natif.View.Play
         private ColorFrameReader _colorFrameReader = null;
         private BodyFrameReader _bodyFrameReader = null;
         private KinectHelper _kinectHelper = null;
+        private MediaPlayer _player = new MediaPlayer();
+        private SongSelectItem _currentSong = null;
+        private bool _gameStarted = false;
         Body[] _bodies = null;
 
         public SongOngoingPage(int songId)
         {
             InitializeComponent();
+            _currentSong = Constants.AVAILABLE_SONGS.First(s => s.SongId == songId);
         }
 
         /// <summary>
@@ -69,6 +75,20 @@ namespace Kinect_WPF_Natif.View.Play
         }
 
         /// <summary>
+        ///     Simon Déry - 3 mars 2026
+        ///     Démarre la chanson
+        /// </summary>
+        private void StartSong()
+        {
+            _gameStarted = true;
+
+            _player.Open(new Uri(_currentSong.Path, UriKind.RelativeOrAbsolute));
+            _player.Volume = 0.05;
+            _player.Play();
+
+        }
+
+        /// <summary>
         ///     Ferme la kinect lorsque la page est fermée
         /// </summary>
         /// <param name="sender"></param>
@@ -91,6 +111,9 @@ namespace Kinect_WPF_Natif.View.Play
             {
                 _kinectSensor.IsAvailableChanged -= KinectSensor_IsAvailableChanged;
             }
+
+            _player.Stop();
+            _player.Close();
         }
 
         private void Bodyframe_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
@@ -119,6 +142,9 @@ namespace Kinect_WPF_Natif.View.Play
         {
             lblKinectStatus.Content = e.IsAvailable ? "Disponible" : "Indisponible";
             lblKinectStatus.Foreground = e.IsAvailable ? System.Windows.Media.Brushes.Green : System.Windows.Media.Brushes.Red;
+
+            if (e.IsAvailable && !_gameStarted)
+                StartSong();
         }
     }
 }
