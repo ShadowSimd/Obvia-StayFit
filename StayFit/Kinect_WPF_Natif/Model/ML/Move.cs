@@ -21,11 +21,15 @@ namespace Kinect_WPF_Natif.Model.ML
             {
                 { Moves.None, new Move() { MoveId = Moves.None, DisplayName = "Aucun", Label = "None"}},
 
-                { Moves.Pushup_Up, new Move() { MoveId = Moves.Pushup_Up, DisplayName = "Pushup Haut", Label = "Pushup_Up"}},
-                { Moves.Pushup_Down, new Move() { MoveId = Moves.Pushup_Down, DisplayName = "Pushup bas", Label = "Pushup_Down"}},
+                { Moves.Pushup_Up, new Move() { MoveId = Moves.Pushup_Up, DisplayName = "Pushup Haut", Label = "Pushup_Up", ImagePath = $"{Constants.InitialMoveImagePath}/Pushup_Active.png"}},
+                { Moves.Pushup_Down, new Move() { MoveId = Moves.Pushup_Down, DisplayName = "Pushup bas", Label = "Pushup_Down", ImagePath = $"{Constants.InitialMoveImagePath}/Pushup_Rest.png"}},
 
-                { Moves.Squat_Up, new Move() { MoveId = Moves.Squat_Up, DisplayName = "Squat haut", Label = "Squat_Up"}},
-                { Moves.Squat_Down, new Move() { MoveId = Moves.Squat_Down, DisplayName = "Squat bas", Label = "Squat_Down"}},
+                { Moves.Squat_Up, new Move() { MoveId = Moves.Squat_Up, DisplayName = "Squat haut", Label = "Squat_Up", ImagePath = $"{Constants.InitialMoveImagePath}/Squat_Active.png"}},
+                { Moves.Squat_Down, new Move() { MoveId = Moves.Squat_Down, DisplayName = "Squat bas", Label = "Squat_Down", ImagePath = $"{Constants.InitialMoveImagePath}/Squat_Rest.png"}},
+
+                { Moves.JumpingJack_Up, new Move() { MoveId = Moves.JumpingJack_Up, DisplayName = "Jumping jack haut", Label = "JumpingJack_Up", ImagePath = $"{Constants.InitialMoveImagePath}/JumpingJack_Active.png"}},
+                { Moves.JumpingJack_Down, new Move() { MoveId = Moves.JumpingJack_Down, DisplayName = "Jumping jack bas", Label = "JumpingJack_Down", ImagePath = $"{Constants.InitialMoveImagePath}/JumpingJack_Rest.png"}},
+
             };
         }
 
@@ -35,7 +39,9 @@ namespace Kinect_WPF_Natif.Model.ML
             Pushup_Up,
             Pushup_Down,
             Squat_Up,
-            Squat_Down
+            Squat_Down,
+            JumpingJack_Up, 
+            JumpingJack_Down
         }
 
         /// <summary>
@@ -61,6 +67,8 @@ namespace Kinect_WPF_Natif.Model.ML
             public string DisplayName { get; set; }
 
             public string Label { get; set; }
+
+            public string ImagePath { get; set; }
         }
     }
 }
