@@ -19,7 +19,7 @@ namespace Kinect_WPF_Natif.Model.ML
         {
             _availableMoves = new Dictionary<Moves, Move>()
             {
-                { Moves.None, new Move() { MoveId = Moves.None, DisplayName = "Aucun", Label = "None"}},
+                { Moves.None, new Move() { MoveId = Moves.None, DisplayName = "Aucun", Label = "None", ImagePath = $"{Constants.InitialMoveImagePath}/None.png"}},
 
                 { Moves.Pushup_Up, new Move() { MoveId = Moves.Pushup_Up, DisplayName = "Pushup Haut", Label = "Pushup_Up", ImagePath = $"{Constants.InitialMoveImagePath}/Pushup_Active.png"}},
                 { Moves.Pushup_Down, new Move() { MoveId = Moves.Pushup_Down, DisplayName = "Pushup bas", Label = "Pushup_Down", ImagePath = $"{Constants.InitialMoveImagePath}/Pushup_Rest.png"}},

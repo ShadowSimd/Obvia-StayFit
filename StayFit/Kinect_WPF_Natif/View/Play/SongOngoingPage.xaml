@@ -6,7 +6,9 @@
       xmlns:local="clr-namespace:Kinect_WPF_Natif.View.Play"
       mc:Ignorable="d" 
       d:DesignHeight="1080" d:DesignWidth="1920"
-      Title="SongOngoingPage" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+      Title="SongOngoingPage" Loaded="Page_Loaded" Unloaded="Page_Unloaded"
+      
+      >
 
     <Grid>
         <Grid.RowDefinitions>
@@ -16,6 +18,8 @@
         </Grid.RowDefinitions>
 
         <Image Grid.Row="0" Source="/Images/stayfit-logo.png" Height="200" Width="600" />
+        
+        <Image Name="imgMove" Grid.Row="1" Source="/Images/stayfit-logo.png" Height="256" Width="256" />
 
         <Image Grid.Row="2" x:Name="imgCameraKinect" HorizontalAlignment="Center" Height="216" Width="384" Margin="0" />
         <Canvas Grid.Row="2" x:Name="canvas"  HorizontalAlignment="Center"  Height="216" Width="384" Margin="0" Panel.ZIndex="1" />

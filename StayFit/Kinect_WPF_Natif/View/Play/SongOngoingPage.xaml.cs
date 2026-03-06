@@ -1,6 +1,7 @@
 ﻿using Kinect_WPF_Natif.Model;
 using Kinect_WPF_Natif.Model.Data;
 using Kinect_WPF_Natif.Model.Helpers;
+using Kinect_WPF_Natif.Model.ML;
 using Kinect_WPF_Natif.Model.Play;
 using Microsoft.Kinect;
 using Microsoft.SqlServer.Server;
@@ -20,6 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static Kinect_WPF_Natif.Model.ML.MoveHandler;
 
 namespace Kinect_WPF_Natif.View.Play
 {
@@ -36,6 +38,7 @@ namespace Kinect_WPF_Natif.View.Play
         private MediaPlayer _player = new MediaPlayer();
         private SongSelectItem _currentSong = null;
         private bool _gameStarted = false;
+        private Dictionary<Moves, BitmapSource> _cachedMovedImages = new Dictionary<Moves, BitmapSource>();
         Body[] _bodies = null;
 
         public SongOngoingPage(SongSelectItem loadedSong)
@@ -52,9 +55,13 @@ namespace Kinect_WPF_Natif.View.Play
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             InitializeKinect();
+            LoadMoveImages();
+
+            CompositionTarget.Rendering += GameLoop_UIFrame;
         }
 
         /// <summary>
+        ///     Simon Déry - 4 mars 2026
         ///     Initialise la kinect
         /// </summary>
         private void InitializeKinect()
@@ -77,17 +84,26 @@ namespace Kinect_WPF_Natif.View.Play
         }
 
         /// <summary>
-        ///     Simon Déry - 3 mars 2026
-        ///     Démarre la chanson
+        ///     Simon Déry - 5 mars 2026
+        ///     Load les images en cache pour permettre de changer rapidement
         /// </summary>
-        private void StartSong()
+        private void LoadMoveImages()
         {
-            _gameStarted = true;
+            List<Move> availableMoves = MoveHandler.GetAllMoves()
+                .ToList();
 
-            _player.Open(new Uri(_currentSong.Path, UriKind.RelativeOrAbsolute));
-            _player.Volume = 0.05;
-            _player.Play();
+            foreach (Move move in availableMoves)
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(move.ImagePath);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
 
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                _cachedMovedImages[move.MoveId] = bitmap;
+            }
         }
 
         /// <summary>
@@ -116,6 +132,46 @@ namespace Kinect_WPF_Natif.View.Play
 
             _player.Stop();
             _player.Close();
+
+            CompositionTarget.Rendering -= GameLoop_UIFrame;
+        }
+
+        /// <summary>
+        ///     Simon Déry - 3 mars 2026
+        ///     Démarre la chanson
+        /// </summary>
+        private void StartSong()
+        {
+            _gameStarted = true;
+
+            _player.Open(new Uri(_currentSong.Path, UriKind.RelativeOrAbsolute));
+            _player.Volume = 0.05;
+            _player.Play();
+        }
+
+        /// <summary>
+        ///     Simon Déry - 5 mars 2026
+        ///     Chaque frame, ceci est call. Doit être utilisé pour les updates de UI uniquement
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        /// <exception cref="NotImplementedException"></exception>
+        private void GameLoop_UIFrame(object sender, EventArgs e)
+        {
+            if (!_player.HasAudio || _player.Position == TimeSpan.Zero)
+                return;
+
+
+            TimeSpan currentMoveTime = _player.Position;
+            SongMoveTimestamp nextMove = _currentSong.MoveTimestamps.FirstOrDefault(mts => _player.Position.TotalMilliseconds + 500 >= mts.Time.TotalMilliseconds && _player.Position.TotalMilliseconds - 500 <= mts.Time.TotalMilliseconds);
+
+            if (nextMove == null)
+            {
+                imgMove.Source = _cachedMovedImages[Moves.None];
+                return;
+            }
+            else if (imgMove.Source != _cachedMovedImages[nextMove.MoveId])
+                imgMove.Source = _cachedMovedImages[nextMove.MoveId];
         }
 
         private void Bodyframe_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
