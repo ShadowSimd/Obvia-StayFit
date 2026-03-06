@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Kinect_WPF_Natif.View.CreateSong"
         mc:Ignorable="d"
+        Closed="Window_Closed"
         Title="Création de chanson" Height="900" Width="1600"
             WindowStartupLocation="CenterScreen"
             WindowState="Maximized"

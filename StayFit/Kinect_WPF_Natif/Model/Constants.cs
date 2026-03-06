@@ -18,10 +18,20 @@ namespace Kinect_WPF_Natif.Model
         #region Audio
 
         private const string InitialAudioPath = "Audio/Songs";
+
         public static List<SongSelectItem> AVAILABLE_SONGS = new List<SongSelectItem>
         {
-            new SongSelectItem {Difficulty = 1, Path = $"{InitialAudioPath}/To_Brazil.mp3", SongId = 1, Title = "Vengaboys - To Brazil!" }
+            new SongSelectItem {Difficulty = 3, Path = $"{InitialAudioPath}/To_Brazil.mp3", SongId = 1, Title = "Vengaboys - To Brazil!" },
+            new SongSelectItem {Difficulty = 5, Path = $"{InitialAudioPath}/Pushup_Test.mp3", SongId = 2, Title = "Pushup Test - FitnessGram" }
         };
+
+        public const double MEDIA_PLAYER_VOLUME = 0.05;
+
+        #endregion
+
+        #region Songs
+
+        public const string SongDataJsonPath = "/SongData";
 
         #endregion
     }

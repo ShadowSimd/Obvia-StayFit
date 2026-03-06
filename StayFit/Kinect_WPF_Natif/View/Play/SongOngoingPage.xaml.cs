@@ -1,4 +1,5 @@
 ﻿using Kinect_WPF_Natif.Model;
+using Kinect_WPF_Natif.Model.Data;
 using Kinect_WPF_Natif.Model.Helpers;
 using Kinect_WPF_Natif.Model.Play;
 using Microsoft.Kinect;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -36,10 +38,10 @@ namespace Kinect_WPF_Natif.View.Play
         private bool _gameStarted = false;
         Body[] _bodies = null;
 
-        public SongOngoingPage(int songId)
+        public SongOngoingPage(SongSelectItem loadedSong)
         {
             InitializeComponent();
-            _currentSong = Constants.AVAILABLE_SONGS.First(s => s.SongId == songId);
+            _currentSong = loadedSong;
         }
 
         /// <summary>

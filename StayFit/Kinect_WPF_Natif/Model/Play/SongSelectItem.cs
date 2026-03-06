@@ -12,5 +12,7 @@ namespace Kinect_WPF_Natif.Model.Play
         public string Title { get; set; }
         public string Path { get; set; }
         public int Difficulty { get; set; }
+        public List<SongMoveTimestamp> MoveTimestamps { get; set; } = new List<SongMoveTimestamp>();
+
     }
 }
