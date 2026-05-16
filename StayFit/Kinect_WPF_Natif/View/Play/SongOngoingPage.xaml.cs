@@ -39,6 +39,7 @@ namespace Kinect_WPF_Natif.View.Play
         private SongSelectItem _currentSong = null;
         private bool _gameStarted = false;
         private Dictionary<Moves, BitmapSource> _cachedMovedImages = new Dictionary<Moves, BitmapSource>();
+        private AI _ai = new AI();
         Body[] _bodies = null;
 
         public SongOngoingPage(SongSelectItem loadedSong)
@@ -56,6 +57,7 @@ namespace Kinect_WPF_Natif.View.Play
         {
             InitializeKinect();
             LoadMoveImages();
+            _ai.InitializeModelFromSavedData();
 
             CompositionTarget.Rendering += GameLoop_UIFrame;
         }
@@ -174,6 +176,19 @@ namespace Kinect_WPF_Natif.View.Play
                 imgMove.Source = _cachedMovedImages[nextMove.MoveId];
         }
 
+        private void GameLoop_PredictionLogic()
+        {
+            Body body = _kinectHelper.Bodies.FirstOrDefault(b => b.IsTracked);
+            if (body == null)
+                return;
+
+            MovePredictionResult prediction = _ai.Predict(body);
+
+            lblTestMove.Content = prediction.Prediction;
+
+
+        }
+
         private void Bodyframe_FrameArrived(object sender, BodyFrameArrivedEventArgs e)
         {
             using (BodyFrame bodyFrame = e.FrameReference.AcquireFrame())
@@ -181,6 +196,8 @@ namespace Kinect_WPF_Natif.View.Play
                 if (bodyFrame != null)
                 {
                     _kinectHelper.ShowBodiesOnCanva(bodyFrame, canvas);
+
+                    GameLoop_PredictionLogic();
                 }
             }
         }

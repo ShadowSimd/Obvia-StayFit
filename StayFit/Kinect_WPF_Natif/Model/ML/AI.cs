@@ -62,15 +62,23 @@ namespace Kinect_WPF_Natif.Model
                     inputColumnName: "PredictedLabel"
                 ));
 
-            var preview = dataView.Preview(maxRows: 5);
-            string asd = string.Join(", ", preview.Schema.Select(c => c.Name));
-
-
             Microsoft.ML.Data.TransformerChain<Microsoft.ML.Transforms.KeyToValueMappingTransformer> trainedModel = pipeline.Fit(dataView);
 
-            var output = trainedModel.GetOutputSchema(dataView.Schema);
+            mlContext.Model.Save(trainedModel, dataView.Schema, Constants.MODEL_SAVE_PATH);
 
             _moveAI = mlContext.Model.CreatePredictionEngine<MoveData, MovePredictionResult>(trainedModel);
+        }
+
+        /// <summary>
+        ///     Simon Déry - 16 mai 2026
+        ///     Permet de charger un model depuis les informations enregistrées dans un fichier .zip
+        /// </summary>
+        public void InitializeModelFromSavedData()
+        {
+            MLContext mlContext = new MLContext();
+            ITransformer loadedModel = mlContext.Model.Load(Constants.MODEL_SAVE_PATH, out var modelSchema);
+            _moveAI = mlContext.Model.CreatePredictionEngine<MoveData, MovePredictionResult>(loadedModel);
+
         }
 
         /// <summary>
