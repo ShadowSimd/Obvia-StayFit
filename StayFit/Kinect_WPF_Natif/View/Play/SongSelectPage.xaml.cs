@@ -33,7 +33,7 @@ namespace Kinect_WPF_Natif.View.Play
 
         private void LoadSongsSongSelect()
         {
-            List<SongSelectItem> songSelect = Constants.AVAILABLE_SONGS;
+            List<SongSelectItem> songSelect = Constants.AVAILABLE_SONGS.OrderBy(s => s.Difficulty).ToList();
 
             SongListBox.ItemsSource = songSelect;
         }

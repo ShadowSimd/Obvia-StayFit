@@ -163,7 +163,7 @@ namespace Kinect_WPF_Natif.View.Play
 
 
             TimeSpan currentMoveTime = _player.Position;
-            SongMoveTimestamp nextMove = _currentSong.MoveTimestamps.FirstOrDefault(mts => _player.Position.TotalMilliseconds + 500 >= mts.Time.TotalMilliseconds && _player.Position.TotalMilliseconds - 500 <= mts.Time.TotalMilliseconds);
+            SongMoveTimestamp nextMove = _currentSong.MoveTimestamps.FirstOrDefault(mts => _player.Position.TotalMilliseconds + 250 >= mts.Time.TotalMilliseconds && _player.Position.TotalMilliseconds - 500 <= mts.Time.TotalMilliseconds);
 
             if (nextMove == null)
             {
