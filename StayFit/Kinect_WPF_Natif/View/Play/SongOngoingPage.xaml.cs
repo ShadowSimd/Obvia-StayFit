@@ -178,7 +178,10 @@ namespace Kinect_WPF_Natif.View.Play
                 lblScore.Content = $"{_score.Score.ToString().PadLeft(7, '0')}";
                 lblCombo.Content = $"{_score.Combo}x | Max: {_score.MaxCombo}";
                 lblTestResult.Content = $"{_score.LastMoveScore.ToString()}";
-                lblTestResult.Foreground = _score.LastMoveScore == MoveScore.Miss ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Cyan;
+                lblTestResult.Foreground = _score.LastMoveScore == MoveScore.Miss ? System.Windows.Media.Brushes.Red :
+                    _score.LastMoveScore == MoveScore.Ok ? System.Windows.Media.Brushes.Orange :
+                    _score.LastMoveScore == MoveScore.Good ? System.Windows.Media.Brushes.Green : 
+                    System.Windows.Media.Brushes.Cyan;
             }
         }
 
@@ -204,18 +207,32 @@ namespace Kinect_WPF_Natif.View.Play
                     }
 
                     MovePredictionResult prediction = _ai.Predict(body);
-                    float bestScore = prediction.Scores.Max();
-                    nextMove.PredictionResults.Add(prediction);
-                    lblTestMove.Content = $"{prediction.Prediction} ({bestScore})";
+                    MovePredictionWithBestScore strippedPrediction = new MovePredictionWithBestScore
+                    {
+                        Prediction = prediction.Prediction,
+                        Score = prediction.Scores.Max()
+                    };
+                    nextMove.PredictionResults.Add(strippedPrediction);
+                    lblTestMove.Content = $"{prediction.Prediction} ({strippedPrediction.Score})";
                     continue;
                 }
 
                 Move correctMove = MoveHandler.GetMove(nextMove.SongMoveTimestamp.MoveId);
-                MovePredictionResult movePredictionResult = nextMove.PredictionResults.FirstOrDefault(b => b.Prediction == correctMove.Label);
+                List<MovePredictionWithBestScore> correctPredictions = nextMove.PredictionResults.Where(b => b.Prediction == correctMove.Label).ToList();
+                if (correctPredictions.Count == 0)
+                    nextMove.Score = MoveScore.Miss;
+                else
+                {
+                    float aiPredictionBestScore = correctPredictions.Max(mp => mp.Score);
+                    if (aiPredictionBestScore > -35)
+                        nextMove.Score = MoveScore.Perfect;
+                    else if (aiPredictionBestScore > -45)
+                        nextMove.Score = MoveScore.Good;
+                    else
+                        nextMove.Score = MoveScore.Ok;
+                }
+                
                 nextMove.IsEvaluated = true;
-
-                nextMove.Score = movePredictionResult == null ? MoveScore.Miss : MoveScore.Perfect;
-
                 _score.UpdateScore(nextMove.Score);
             }
         }

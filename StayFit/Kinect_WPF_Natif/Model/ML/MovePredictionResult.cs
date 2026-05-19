@@ -17,4 +17,10 @@ namespace Kinect_WPF_Natif.Model.ML
         [ColumnName("Probability")]
         public float[] Probabilities { get; set; }
     }
+    public class MovePredictionWithBestScore
+    {
+        public string Prediction { get; set; }
+
+        public float Score { get; set; }
+    }
 }
