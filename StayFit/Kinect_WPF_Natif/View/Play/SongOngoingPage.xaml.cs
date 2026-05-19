@@ -40,13 +40,13 @@ namespace Kinect_WPF_Natif.View.Play
         private bool _gameStarted = false;
         private Dictionary<Moves, BitmapSource> _cachedMovedImages = new Dictionary<Moves, BitmapSource>();
         private AI _ai = new AI();
-        private List<ActiveSongMoveStatus> _activeSongMoveTimestamps = null;
+        private SongScore _score = new SongScore(); 
 
         public SongOngoingPage(SongSelectItem loadedSong)
         {
             InitializeComponent();
             _currentSong = loadedSong;
-            _activeSongMoveTimestamps = _currentSong.MoveTimestamps.Select(mts => new ActiveSongMoveStatus(mts)).ToList();
+            _score.SongMoveStatus = _currentSong.MoveTimestamps.Select(mts => new ActiveSongMoveStatus(mts)).ToList();
         }
 
         /// <summary>
@@ -169,18 +169,23 @@ namespace Kinect_WPF_Natif.View.Play
             SongMoveTimestamp nextMove = _currentSong.MoveTimestamps.FirstOrDefault(mts => _player.Position.TotalMilliseconds + 250 >= mts.Time.TotalMilliseconds && _player.Position.TotalMilliseconds - 500 <= mts.Time.TotalMilliseconds);
 
             if (nextMove == null)
-            {
                 imgMove.Source = _cachedMovedImages[Moves.None];
-                return;
-            }
             else if (imgMove.Source != _cachedMovedImages[nextMove.MoveId])
                 imgMove.Source = _cachedMovedImages[nextMove.MoveId];
+
+            if (_score.ScoreChanged)
+            {
+                lblScore.Content = $"{_score.Score.ToString().PadLeft(7, '0')}";
+                lblCombo.Content = $"{_score.Combo}x | Max: {_score.MaxCombo}";
+                lblTestResult.Content = $"{_score.LastMoveScore.ToString()}";
+                lblTestResult.Foreground = _score.LastMoveScore == MoveScore.Miss ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Cyan;
+            }
         }
 
         private void GameLoop_PredictionLogic()
         {
 
-            List<ActiveSongMoveStatus> moveToEvaluate = _activeSongMoveTimestamps.Where(mts => !mts.IsEvaluated && _player.Position.TotalMilliseconds + 250 >= mts.SongMoveTimestamp.Time.TotalMilliseconds).ToList();
+            List<ActiveSongMoveStatus> moveToEvaluate = _score.SongMoveStatus.Where(mts => !mts.IsEvaluated && _player.Position.TotalMilliseconds + 250 >= mts.SongMoveTimestamp.Time.TotalMilliseconds).ToList();
             if (moveToEvaluate.Count == 0)
             {
                 lblTestMove.Content = $"Not evaluating";
@@ -202,29 +207,17 @@ namespace Kinect_WPF_Natif.View.Play
                     float bestScore = prediction.Scores.Max();
                     nextMove.PredictionResults.Add(prediction);
                     lblTestMove.Content = $"{prediction.Prediction} ({bestScore})";
-                    return;
+                    continue;
                 }
 
                 Move correctMove = MoveHandler.GetMove(nextMove.SongMoveTimestamp.MoveId);
                 MovePredictionResult movePredictionResult = nextMove.PredictionResults.FirstOrDefault(b => b.Prediction == correctMove.Label);
                 nextMove.IsEvaluated = true;
 
-                if (movePredictionResult != null)
-                {
-                    nextMove.Score = MoveScore.Perfect;
-                    lblTestResult.Foreground = System.Windows.Media.Brushes.DarkCyan;
-                    lblTestResult.Content = "Perfect";
-                }
-                else
-                {
-                    nextMove.Score = MoveScore.Miss;
-                    lblTestResult.Foreground = System.Windows.Media.Brushes.Red;
-                    lblTestResult.Content = "Miss";
-                }
+                nextMove.Score = movePredictionResult == null ? MoveScore.Miss : MoveScore.Perfect;
 
+                _score.UpdateScore(nextMove.Score);
             }
-
-
         }
 
         private void Bodyframe_FrameArrived(object sender, BodyFrameArrivedEventArgs e)

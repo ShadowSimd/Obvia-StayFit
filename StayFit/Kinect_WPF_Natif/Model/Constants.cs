@@ -23,7 +23,8 @@ namespace Kinect_WPF_Natif.Model
         {
             new SongSelectItem {Difficulty = 3, Path = $"{InitialAudioPath}/To_Brazil.mp3", SongId = 1, Title = "Vengaboys - To Brazil!" },
             new SongSelectItem {Difficulty = 5, Path = $"{InitialAudioPath}/Pushup_Test.mp3", SongId = 2, Title = "Pushup Test - FitnessGram" },
-            new SongSelectItem {Difficulty = 4, Path = $"{InitialAudioPath}/Kickstart_My_Heart.mp3", SongId = 3, Title = "Kickstart My Heart - Mötley Crüe" }
+            new SongSelectItem {Difficulty = 4, Path = $"{InitialAudioPath}/Kickstart_My_Heart.mp3", SongId = 3, Title = "Kickstart My Heart - Mötley Crüe" },
+            new SongSelectItem {Difficulty = 2, Path = $"{InitialAudioPath}/Burbank_House.mp3", SongId = 4, Title = "Burbank House - tsubi club" }
 
         };
 
