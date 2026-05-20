@@ -18,6 +18,7 @@ using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -164,14 +165,14 @@ namespace Kinect_WPF_Natif.View.Play
             if (!_player.HasAudio || _player.Position == TimeSpan.Zero)
                 return;
 
-
             TimeSpan currentMoveTime = _player.Position;
-            SongMoveTimestamp nextMove = _currentSong.MoveTimestamps.FirstOrDefault(mts => _player.Position.TotalMilliseconds + 250 >= mts.Time.TotalMilliseconds && _player.Position.TotalMilliseconds - 500 <= mts.Time.TotalMilliseconds);
+            ActiveSongMoveStatus nextMove = _score.SongMoveStatus.FirstOrDefault(mts => !mts.IsSpawned && _player.Position.TotalMilliseconds + Constants.ImageScrollTime >= mts.SongMoveTimestamp.Time.TotalMilliseconds);
 
-            if (nextMove == null)
-                imgMove.Source = _cachedMovedImages[Moves.None];
-            else if (imgMove.Source != _cachedMovedImages[nextMove.MoveId])
-                imgMove.Source = _cachedMovedImages[nextMove.MoveId];
+            if (nextMove != null)
+            {
+                SpawnMovingImage(Constants.ImageScrollTime / 1000, nextMove.SongMoveTimestamp.MoveId);
+                nextMove.IsSpawned = true;
+            }
 
             if (_score.ScoreChanged)
             {
@@ -185,10 +186,44 @@ namespace Kinect_WPF_Natif.View.Play
             }
         }
 
+        private void SpawnMovingImage(int transitionDurationSeconds, Moves moveId)
+        {
+            BitmapSource cachedMoveImg = _cachedMovedImages[moveId];
+
+            double canvaHeight = canvaMoveImg.ActualHeight;
+            double canvaWidth = canvaMoveImg.ActualWidth;
+            double imgSize = canvaHeight / 3;
+
+            System.Windows.Controls.Image moveImg = new System.Windows.Controls.Image
+            {
+                Source = cachedMoveImg,
+                Width = imgSize,
+                Height = imgSize,
+                Stretch = Stretch.Uniform
+            };
+
+            canvaMoveImg.Children.Add(moveImg);
+
+            double startX = canvaMoveImg.ActualWidth;
+            Canvas.SetLeft(moveImg, 0);
+            Canvas.SetTop(moveImg, canvaHeight / 2 - imgSize / 2);
+
+            DoubleAnimation moveLeftAnimation = new DoubleAnimation
+            {
+                From = -imgSize,
+                To = canvaWidth - imgSize,
+                Duration = TimeSpan.FromSeconds(transitionDurationSeconds)
+            };
+
+            moveLeftAnimation.Completed += (s, e) => { canvaMoveImg.Children.Remove(moveImg); };
+
+            moveImg.BeginAnimation(Canvas.LeftProperty, moveLeftAnimation);
+        }
+
         private void GameLoop_PredictionLogic()
         {
 
-            List<ActiveSongMoveStatus> moveToEvaluate = _score.SongMoveStatus.Where(mts => !mts.IsEvaluated && _player.Position.TotalMilliseconds + 250 >= mts.SongMoveTimestamp.Time.TotalMilliseconds).ToList();
+            List<ActiveSongMoveStatus> moveToEvaluate = _score.SongMoveStatus.Where(mts => !mts.IsEvaluated && _player.Position.TotalMilliseconds + Constants.PredictionBuffer >= mts.SongMoveTimestamp.Time.TotalMilliseconds).ToList();
             if (moveToEvaluate.Count == 0)
             {
                 lblTestMove.Content = $"Not evaluating";
@@ -197,7 +232,7 @@ namespace Kinect_WPF_Natif.View.Play
 
             foreach(ActiveSongMoveStatus nextMove in moveToEvaluate)
             {
-                if (_player.Position.TotalMilliseconds <= nextMove.SongMoveTimestamp.Time.TotalMilliseconds)
+                if (_player.Position.TotalMilliseconds <= nextMove.SongMoveTimestamp.Time.TotalMilliseconds + Constants.PredictionBuffer)
                 {
                     Body body = _kinectHelper.Bodies.FirstOrDefault(b => b.IsTracked);
                     if (body == null)

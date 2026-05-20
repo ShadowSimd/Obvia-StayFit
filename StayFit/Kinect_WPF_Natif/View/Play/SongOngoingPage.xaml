@@ -29,7 +29,12 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
-            <Image Name="imgMove" Source="/Images/stayfit-logo.png" Grid.Column="0" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <Canvas Name="canvaMoveImg" Grid.Column="0" Background="Transparent" ClipToBounds="True" />
+            <Rectangle Grid.Column="0" Width="8" Fill="Red" HorizontalAlignment="Right" VerticalAlignment="Stretch" RenderTransformOrigin="0.5,0.5">
+                <Rectangle.RenderTransform>
+                    <ScaleTransform ScaleY="0.5" />
+                </Rectangle.RenderTransform>
+            </Rectangle>
             <StackPanel Grid.Column="1" Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Label Name="lblTestMove" FontSize="36" Content="No move" FontWeight="Bold" Foreground="Red" HorizontalAlignment="Center" Margin="10,0,0,0"/>
                 <Label Name="lblTestResult" FontSize="36" Content="" FontWeight="Bold" Foreground="Red" HorizontalAlignment="Center" Margin="10,0,0,0"/>

@@ -41,6 +41,14 @@ namespace Kinect_WPF_Natif.Model
         #region AI
 
         public const string MODEL_SAVE_PATH = "STAYFIT_PREDICTION_MODEL.zip";
+        public const string MODEL_DATA_SAVE_PATH = "STAYFIT_PREDICTION_MODEL_DATA";
+
+        #endregion
+
+        #region Game
+
+        public const int ImageScrollTime = 2000;
+        public const int PredictionBuffer = 125;
 
         #endregion
     }

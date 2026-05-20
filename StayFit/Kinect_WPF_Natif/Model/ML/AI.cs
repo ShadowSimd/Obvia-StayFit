@@ -1,4 +1,5 @@
-﻿using Kinect_WPF_Natif.Model.DTO;
+﻿using Kinect_WPF_Natif.Model.Data;
+using Kinect_WPF_Natif.Model.DTO;
 using Kinect_WPF_Natif.Model.ML;
 using Microsoft.Kinect;
 using Microsoft.ML;
@@ -27,6 +28,11 @@ namespace Kinect_WPF_Natif.Model
 
             MoveData moveData = createMoveData(move, body);
             _movesData.Add(moveData);
+        }
+
+        public void LoadTrainingData()
+        {
+            _movesData = JsonHelper.LoadMoveData();
         }
 
         /// <summary>
@@ -67,6 +73,8 @@ namespace Kinect_WPF_Natif.Model
             mlContext.Model.Save(trainedModel, dataView.Schema, Constants.MODEL_SAVE_PATH);
 
             _moveAI = mlContext.Model.CreatePredictionEngine<MoveData, MovePredictionResult>(trainedModel);
+
+            JsonHelper.SaveMoveDataJson(_movesData);
         }
 
         /// <summary>

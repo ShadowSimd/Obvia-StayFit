@@ -26,6 +26,7 @@ namespace Kinect_WPF_Natif.Model.Play
     {
         public SongMoveTimestamp SongMoveTimestamp { get; set; }
 
+        public bool IsSpawned { get; set; } = false;
         public bool IsEvaluated { get; set; } = false;
         public MoveScore Score { get; set; } = MoveScore.NotEvaluated;
         public List<MovePredictionWithBestScore> PredictionResults { get; set; } = new List<MovePredictionWithBestScore>();

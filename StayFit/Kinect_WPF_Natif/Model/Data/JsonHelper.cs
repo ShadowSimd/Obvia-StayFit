@@ -1,4 +1,5 @@
-﻿using Kinect_WPF_Natif.Model.Play;
+﻿using Kinect_WPF_Natif.Model.ML;
+using Kinect_WPF_Natif.Model.Play;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -37,6 +38,30 @@ namespace Kinect_WPF_Natif.Model.Data
             string json = JsonSerializer.Serialize(song, new JsonSerializerOptions { WriteIndented = true });
 
             File.WriteAllText($"{Constants.SongDataJsonPath}/{song.SongId}.json", json);
+        }
+
+        public static List<MoveData> LoadMoveData()
+        {
+            if (!File.Exists($"{Constants.SongDataJsonPath}/{Constants.MODEL_DATA_SAVE_PATH}.json"))
+                return new List<MoveData>();
+
+            StreamReader sr = new StreamReader($"{Constants.SongDataJsonPath}/{Constants.MODEL_DATA_SAVE_PATH}.json");
+            string jsonContent = sr.ReadToEnd();
+            List<MoveData> moveData = JsonSerializer.Deserialize<List<MoveData>>(jsonContent);
+
+            return moveData;
+        }
+
+        public static void SaveMoveDataJson(List<MoveData> moveData)
+        {
+            if (!Directory.Exists(Constants.SongDataJsonPath))
+            {
+                Directory.CreateDirectory(Constants.SongDataJsonPath);
+            }
+
+            string json = JsonSerializer.Serialize(moveData, new JsonSerializerOptions { WriteIndented = false });
+
+            File.WriteAllText($"{Constants.SongDataJsonPath}/{Constants.MODEL_DATA_SAVE_PATH}.json", json);
         }
     }
 }

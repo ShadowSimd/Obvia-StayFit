@@ -1,4 +1,5 @@
 using Kinect_WPF_Natif.Model;
+using Kinect_WPF_Natif.Model.Data;
 using Kinect_WPF_Natif.Model.DTO;
 using Kinect_WPF_Natif.Model.Helpers;
 using Kinect_WPF_Natif.Model.ML;
@@ -31,6 +32,7 @@ namespace Kinect_WPF_Natif
             InitializeComponent();
             SetupMoveSelector();
             InitializeKinect();
+            _ai.LoadTrainingData();
         }
 
         /// <summary>
